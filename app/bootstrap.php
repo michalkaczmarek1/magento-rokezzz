@@ -11,7 +11,7 @@ error_reporting(E_ALL);
 if (in_array('phar', \stream_get_wrappers())) {
     stream_wrapper_unregister('phar');
 }
-// ini_set('display_errors', 1);
+#ini_set('display_errors', 1);
 
 /* PHP version validation */
 if (!defined('PHP_VERSION_ID') || PHP_VERSION_ID < 80100) {
@@ -61,7 +61,8 @@ if (empty($_SERVER['ENABLE_IIS_REWRITES']) || ($_SERVER['ENABLE_IIS_REWRITES'] !
     unset($_SERVER['ORIG_PATH_INFO']);
 }
 
-if ((!empty($_SERVER['MAGE_PROFILER']) || file_exists(BP . '/var/profiler.flag'))
+if (
+    (!empty($_SERVER['MAGE_PROFILER']) || file_exists(BP . '/var/profiler.flag'))
     && isset($_SERVER['HTTP_ACCEPT'])
     && strpos($_SERVER['HTTP_ACCEPT'], 'text/html') !== false
 ) {

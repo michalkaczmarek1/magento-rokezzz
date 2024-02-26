@@ -26,7 +26,7 @@ if (!\is_readable(VENDOR_PATH)) {
 
 $vendorAutoload = (
     static function (): ?string {
-        $vendorDir = include VENDOR_PATH;
+        $vendorDir = require VENDOR_PATH;
 
         $vendorAutoload = BP . "/{$vendorDir}/autoload.php";
         if (\is_readable($vendorAutoload)) {

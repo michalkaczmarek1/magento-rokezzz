@@ -14,7 +14,7 @@ use RuntimeException;
  * Include files from a list of glob patterns
  */
 (static function (): void {
-    $globPatterns = include __DIR__ . '/registration_globlist.php';
+    $globPatterns = require __DIR__ . '/registration_globlist.php';
     $baseDir = \dirname(__DIR__, 2) . '/';
 
     foreach ($globPatterns as $globPattern) {
@@ -26,7 +26,7 @@ use RuntimeException;
 
         \array_map(
             static function (string $file): void {
-                include_once $file;
+                require_once $file;
             },
             $files
         );
