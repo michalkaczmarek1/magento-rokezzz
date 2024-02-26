@@ -1,0 +1,13 @@
+<div>
+    <form id="type-order-form" class="form" data-bind="attr: {'data-hasrequired': $t('* Required Fields')}">
+        <fieldset class="fieldset">
+            <legend data-bind="i18n: 'Type Order Form'"></legend>
+            <!-- ko foreach: getRegion('type-order-form-fields') -->
+            <!-- ko template: getTemplate() --><!-- /ko -->
+            <!--/ko-->
+        </fieldset>
+        <button type="button" data-bind="click: onSubmit" class="action">
+            <span data-bind="i18n: 'Submit'"></span>
+        </button>
+    </form>
+</div>

@@ -1,0 +1,20 @@
+{
+    "type_order": {
+        "column": {
+            "type_order_id": true,
+            "name": true,
+            "order_id": true,
+            "created_at": true,
+            "updated_at": true
+        },
+        "constraint": {
+            "PRIMARY": true,
+            "TYPE_ORDER_ORDER_ID_SALES_ORDER_ENTITY_ID": true
+        }
+    },
+    "sales_order": {
+        "column": {
+            "type_order_id": true
+        }
+    }
+}
