@@ -2,7 +2,10 @@
 
 namespace Rokezzz\CustomOrder\Model;
 
+use Magento\Checkout\Model\Session;
 use Magento\Framework\Api\SearchResults;
+use Magento\Quote\Model\MaskedQuoteIdToQuoteIdInterface;
+use Magento\Sales\Api\OrderRepositoryInterface;
 use Rokezzz\CustomOrder\Api\Data\TypeOrderInterface;
 use Rokezzz\CustomOrder\Api\Data\TypeOrderSearchResultsInterface;
 use Rokezzz\CustomOrder\Api\TypeOrderRepositoryInterface;
@@ -16,29 +19,42 @@ class TypeOrderRepository implements TypeOrderRepositoryInterface
 {
 
     public function __construct(
-        private readonly \Rokezzz\CustomOrder\Model\ResourceModel\TypeOrder $resource,
-        private readonly TypeOrderFactory                                          $modelFactory,
-        private readonly Collection                                         $collectionFactory,
-        private readonly SearchResults                                      $searchResults,
-        private readonly CollectionProcessorInterface                       $collectionProcessor,
+        private readonly \Rokezzz\CustomOrder\Model\ResourceModel\TypeOrder   $resource,
+        private readonly TypeOrderFactory                                     $modelFactory,
+        private readonly Collection                                           $collectionFactory,
+        private readonly SearchResults                                        $searchResults,
+        private readonly CollectionProcessorInterface                         $collectionProcessor,
+        private readonly Session                                              $checkoutSession,
+        private readonly OrderRepositoryInterface                             $orderRepository,
+        private readonly MaskedQuoteIdToQuoteIdInterface $maskedQuoteIdToQuoteId
     )
     {
     }
 
-    public function save(string $name, int $typeOrderId): TypeOrderInterface
+    public function save(TypeOrderInterface $typeOrder, string $cartId = null, string $name = null): TypeOrderInterface
     {
         try {
-            $typeOrder = $this->modelFactory->create();
-            $this->resource->load($typeOrder, $typeOrderId);
-            if($typeOrder->getTypeOrderId()) {
-                return $typeOrder;
+            $typeOrderLoaded = $this->modelFactory->create();
+            $this->resource->load($typeOrderLoaded, $typeOrder->getTypeOrderId());
+            if ($typeOrderLoaded->getTypeOrderId() && $typeOrderLoaded->getOrderId()) {
+                return $typeOrderLoaded;
             }
-            $typeOrder->setName($name);
-            $this->resource->save($typeOrder);
+
+            if(!$typeOrder->getQuoteId()) {
+                $quoteId = (string) $this->maskedQuoteIdToQuoteId->execute($cartId);
+                $typeOrderLoaded->setQuoteId($quoteId);
+            } else {
+                $typeOrderLoaded->setQuoteId($typeOrder->getQuoteId());
+            }
+
+            $typeOrderLoaded->setName($typeOrder->getName() === null ? $name : $typeOrder->getName());
+            $typeOrderLoaded->setOrderId($typeOrder->getOrderId());
+            $typeOrderLoaded->setIncrementId($typeOrder->getIncrementId());
+            $this->resource->save($typeOrderLoaded);
+            return $typeOrderLoaded;
         } catch (\Exception $exception) {
             throw new CouldNotSaveException(__($exception->getMessage()));
         }
-        return $typeOrder;
     }
 
     public function getById(int $typeOrderId): TypeOrderInterface
@@ -78,6 +94,13 @@ class TypeOrderRepository implements TypeOrderRepositoryInterface
     public function deleteById(int $typeOrderId): bool
     {
         return $this->delete($this->getById($typeOrderId));
+    }
+
+    public function getByQuoteId(string $quoteId): TypeOrderInterface
+    {
+        $typeOrder = $this->modelFactory->create();
+        $this->resource->load($typeOrder, $quoteId, 'quote_id');
+        return $typeOrder;
     }
 }
 

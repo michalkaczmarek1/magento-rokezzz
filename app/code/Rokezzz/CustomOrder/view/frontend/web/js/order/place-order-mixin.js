@@ -32,14 +32,13 @@ define([
             let typeOrderName = $('div[name="shippingAddress.type_order"] label[for='+ typeOrderId +']').text();
             if (typeOrderId) {
                 let payload = {
-                    // 'entity': placeOrderAction.
                     'cartId': quoteId,
-                    'typeOrderId': typeOrderId,
+                    'typeOrder': typeOrderId,
                     'name': typeOrderName,
                     'isCustomer'    : isCustomer
                 };
 
-                if (!payload.typeOrderId) {
+                if (!payload.typeOrder) {
                     return true;
                 }
 

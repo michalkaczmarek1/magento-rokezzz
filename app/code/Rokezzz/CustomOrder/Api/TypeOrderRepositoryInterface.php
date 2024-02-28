@@ -23,6 +23,12 @@ interface TypeOrderRepositoryInterface
 
 
     /**
+     * @param string $quoteId
+     * @return TypeOrderInterface
+     */
+    public function getByQuoteId(string $quoteId): TypeOrderInterface;
+
+    /**
      * @param TypeOrderInterface $entity
      * @return TypeOrderInterface
      */
@@ -30,10 +36,11 @@ interface TypeOrderRepositoryInterface
 
 
     /**
-     * @param TypeOrderInterface $entity
+     * @param TypeOrderInterface $typeOrder
+     * @param string $cartId
      * @return TypeOrderInterface
      */
-    public function save(string $name, int $typeOrderId): TypeOrderInterface;
+    public function save(TypeOrderInterface $typeOrder, string $cartId, string $name): TypeOrderInterface;
 
 //    /**
 //     * @param TypeOrderInterface $entity

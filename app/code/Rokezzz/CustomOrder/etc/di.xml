@@ -10,6 +10,6 @@
         <plugin name="OrderExtensionAttributeLoad" type="Rokezzz\CustomOrder\Plugin\OrderAttributesLoadPlugin"/>
     </type>
     <type name="Magento\Sales\Api\OrderRepositoryInterface">
-        <plugin name="OrderExtensionAttributeOperations" type="Rokezzz\CustomOrder\Plugin\OrderRepositoryPlugin" disabled="true"/>
+        <plugin name="OrderExtensionAttributeOperations" type="Rokezzz\CustomOrder\Plugin\OrderRepositoryPlugin"/>
     </type>
 </config>

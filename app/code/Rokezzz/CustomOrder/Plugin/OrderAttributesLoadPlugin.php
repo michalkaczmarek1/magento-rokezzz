@@ -16,7 +16,7 @@ class OrderAttributesLoadPlugin
     /**
      * @var OrderExtensionFactory
      */
-    private $extensionFactory;
+    private OrderExtensionFactory $extensionFactory;
 
     /**
      * @param OrderExtensionFactory $extensionFactory
