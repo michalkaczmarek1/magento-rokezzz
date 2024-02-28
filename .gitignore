@@ -67,3 +67,7 @@ atlassian*
 /generated/*
 !/generated/.htaccess
 .DS_Store
+notatki.txt
+commands-reindex.sh
+commands.sh
+

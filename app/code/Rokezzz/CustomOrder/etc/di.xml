@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Rokezzz\CustomOrder\Api\TypeOrderRepositoryInterface"
+                type="Rokezzz\CustomOrder\Model\TypeOrderRepository"/>
+    <preference for="Rokezzz\CustomOrder\Api\Data\TypeOrderInterface" type="Rokezzz\CustomOrder\Model\TypeOrder"/>
+    <preference for="Rokezzz\CustomOrder\Api\Data\TypeOrderSearchResultsInterface"
+                type="Magento\Framework\Api\SearchResults"/>
+    <type name="Magento\Sales\Api\Data\OrderInterface">
+        <plugin name="OrderExtensionAttributeLoad" type="Rokezzz\CustomOrder\Plugin\OrderAttributesLoadPlugin"/>
+    </type>
+    <type name="Magento\Sales\Api\OrderRepositoryInterface">
+        <plugin name="OrderExtensionAttributeOperations" type="Rokezzz\CustomOrder\Plugin\OrderRepositoryPlugin" disabled="true"/>
+    </type>
+</config>

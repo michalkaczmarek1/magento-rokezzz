@@ -11,8 +11,6 @@
         <column xsi:type="int" name="type_order_id" unsigned="true" nullable="false" identity="true"
                 comment="Type Order ID"/>
         <column xsi:type="varchar" name="name" nullable="false" length="60" default="Standardowe" comment="Name"/>
-        <column xsi:type="int" name="order_id" unsigned="true" nullable="false"
-                comment="Order ID"/>
         <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
                 comment="Creation Time"/>
         <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"
@@ -20,12 +18,17 @@
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="type_order_id"/>
         </constraint>
-        <constraint xsi:type="foreign" referenceId="TYPE_ORDER_ORDER_ID_SALES_ORDER_ENTITY_ID"
-                    table="type_order" column="order_id" referenceTable="sales_order"
-                    referenceColumn="entity_id" onDelete="CASCADE"/>
     </table>
-    <table name="sales_order" resource="sales" engine="innodb" comment="Sales Flat Order">
-        <column xsi:type="int" name="type_order_id" unsigned="true" nullable="false"
-                comment="Type Order ID"/>
+    <table name="sales_order">
+        <column xsi:type="int" name="type_order_id" unsigned="true" nullable="true" comment="Type Order ID"/>
+        <constraint xsi:type="foreign" referenceId="SALES_ORDER_TYPE_ORDER_ID_TYPE_ORDER_TYPE_ORDER_ID"
+                    table="sales_order" column="type_order_id" referenceTable="type_order"
+                    referenceColumn="type_order_id" onDelete="CASCADE"/>
+    </table>
+    <table name="sales_order_grid">
+        <column xsi:type="int" name="type_order_id" unsigned="true" nullable="true" comment="Type Order ID"/>
+        <constraint xsi:type="foreign" referenceId="SALES_ORDER_GRID_TYPE_ORDER_ID_TYPE_ORDER_TYPE_ORDER_ID"
+                    table="sales_order_grid" column="type_order_id" referenceTable="type_order"
+                    referenceColumn="type_order_id" onDelete="CASCADE"/>
     </table>
 </schema>

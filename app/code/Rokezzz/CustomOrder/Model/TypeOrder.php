@@ -8,49 +8,34 @@ use Rokezzz\CustomOrder\Api\Data\TypeOrderInterface;
 
 class TypeOrder extends AbstractModel implements TypeOrderInterface
 {
-    private int $typeOrderId;
-    private string $name;
-    private int $orderId;
-    private DateTime $createdAt;
-    private DateTime $updatedAt;
+    private const TYPE_ORDER_ID = 'type_order_id';
+    private const NAME = 'name';
+
+    private const CREATED_AT = 'created_at';
+    private const UPDATED_AT = 'updated_at';
 
     protected function _construct()
     {
-        $this->_init(\Rokezzz\CustomOrder\Model\ResourceModel\TypeOrder::class);
+        $this->_init(ResourceModel\TypeOrder::class);
     }
 
-    public function getTypeOrderId(): int
+    public function getTypeOrderId(): ?string
     {
-        return $this->typeOrderId;
+        return $this->getData(self::TYPE_ORDER_ID);
     }
 
     public function getName(): string
     {
-        return $this->name;
+        return $this->getData(self::NAME);
     }
 
     public function setName(string $name): void
     {
-        $this->name = $name;
+        $this->setData(self::NAME, $name);
     }
 
-    public function getOrderId(): int
+    public function getCreatedAt(): string
     {
-        return $this->orderId;
-    }
-
-    public function setOrderId(int $orderId): void
-    {
-        $this->orderId = $orderId;
-    }
-
-    public function getCreatedAt(): DateTime
-    {
-        return $this->createdAt;
-    }
-
-    public function getUpdatedAt(): DateTime
-    {
-        return $this->updatedAt;
+        return $this->getData(self::CREATED_AT);
     }
 }

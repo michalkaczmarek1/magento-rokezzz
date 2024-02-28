@@ -1,0 +1,6 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Api/etc/extension_attributes.xsd">
+    <extension_attributes for="Magento\Sales\Api\Data\OrderInterface">
+        <attribute code="type_order_id" type="int" />
+<!--        <attribute code="type_o rder" type="Rokezzz\CustomOrder\Api\Data\TypeOrderInterface" />-->
+    </extension_attributes>
+</config>

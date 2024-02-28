@@ -2,6 +2,7 @@
 
 namespace Rokezzz\CustomOrder\Model;
 
+use Magento\Framework\Api\SearchResults;
 use Rokezzz\CustomOrder\Api\Data\TypeOrderInterface;
 use Rokezzz\CustomOrder\Api\Data\TypeOrderSearchResultsInterface;
 use Rokezzz\CustomOrder\Api\TypeOrderRepositoryInterface;
@@ -16,17 +17,23 @@ class TypeOrderRepository implements TypeOrderRepositoryInterface
 
     public function __construct(
         private readonly \Rokezzz\CustomOrder\Model\ResourceModel\TypeOrder $resource,
-        private readonly TypeOrder                                          $modelFactory,
+        private readonly TypeOrderFactory                                          $modelFactory,
         private readonly Collection                                         $collectionFactory,
-        private readonly TypeOrderSearchResultsInterface                    $searchResults,
+        private readonly SearchResults                                      $searchResults,
         private readonly CollectionProcessorInterface                       $collectionProcessor,
     )
     {
     }
 
-    public function save(TypeOrderInterface $typeOrder, int $storeId = null): TypeOrderInterface
+    public function save(string $name, int $typeOrderId): TypeOrderInterface
     {
         try {
+            $typeOrder = $this->modelFactory->create();
+            $this->resource->load($typeOrder, $typeOrderId);
+            if($typeOrder->getTypeOrderId()) {
+                return $typeOrder;
+            }
+            $typeOrder->setName($name);
             $this->resource->save($typeOrder);
         } catch (\Exception $exception) {
             throw new CouldNotSaveException(__($exception->getMessage()));

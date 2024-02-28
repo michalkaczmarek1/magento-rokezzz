@@ -6,18 +6,29 @@ use DateTime;
 
 interface TypeOrderInterface
 {
-    public function getTypeOrderId(): int;
+    /**
+     * @return ?string
+     */
+    public function getTypeOrderId(): ?string;
 
+    /**
+     * @return string
+     */
     public function getName(): string;
 
+    /**
+     * @param string $name
+     * @return void
+     */
     public function setName(string $name): void;
 
-    public function getOrderId(): int;
+    /**
+     * @return string
+     */
+    public function getCreatedAt(): string;
 
-    public function setOrderId(int $orderId): void;
-
-    public function getCreatedAt(): DateTime;
-
-    public function getUpdatedAt(): DateTime;
-
+    /**
+     * @return string
+     */
+    public function getUpdatedAt(): string;
 }

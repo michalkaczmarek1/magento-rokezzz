@@ -2,16 +2,43 @@
 
 namespace Rokezzz\CustomOrder\Api;
 
+use Magento\Framework\Api\SearchCriteriaInterface;
 use Rokezzz\CustomOrder\Api\Data\TypeOrderInterface;
+use Rokezzz\CustomOrder\Api\Data\TypeOrderSearchResultsInterface;
 
 interface TypeOrderRepositoryInterface
 {
-    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $searchCriteria);
+    /**
+     * @param SearchCriteriaInterface $searchCriteria
+     * @return TypeOrderSearchResultsInterface
+     */
+    public function getList(SearchCriteriaInterface $searchCriteria): TypeOrderSearchResultsInterface;
 
-    public function getById(int $id);
 
-    public function delete(TypeOrderInterface $entity);
+    /**
+     * @param int $id
+     * @return TypeOrderInterface
+     */
+    public function getById(int $id): TypeOrderInterface;
 
-    public function save(TypeOrderInterface $entity);
+
+    /**
+     * @param TypeOrderInterface $entity
+     * @return TypeOrderInterface
+     */
+    public function delete(TypeOrderInterface $entity): bool;
+
+
+    /**
+     * @param TypeOrderInterface $entity
+     * @return TypeOrderInterface
+     */
+    public function save(string $name, int $typeOrderId): TypeOrderInterface;
+
+//    /**
+//     * @param TypeOrderInterface $entity
+//     * @return TypeOrderInterface
+//     */
+//    public function save(TypeOrderInterface $entity): TypeOrderInterface;
 }
 
