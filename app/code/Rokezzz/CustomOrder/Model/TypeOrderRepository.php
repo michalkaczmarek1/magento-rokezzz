@@ -19,19 +19,23 @@ class TypeOrderRepository implements TypeOrderRepositoryInterface
 {
 
     public function __construct(
-        private readonly \Rokezzz\CustomOrder\Model\ResourceModel\TypeOrder   $resource,
-        private readonly TypeOrderFactory                                     $modelFactory,
-        private readonly Collection                                           $collectionFactory,
-        private readonly SearchResults                                        $searchResults,
-        private readonly CollectionProcessorInterface                         $collectionProcessor,
-        private readonly Session                                              $checkoutSession,
-        private readonly OrderRepositoryInterface                             $orderRepository,
-        private readonly MaskedQuoteIdToQuoteIdInterface $maskedQuoteIdToQuoteId
+        private readonly \Rokezzz\CustomOrder\Model\ResourceModel\TypeOrder $resource,
+        private readonly TypeOrderFactory                                   $modelFactory,
+        private readonly Collection                                         $collectionFactory,
+        private readonly SearchResults                                      $searchResults,
+        private readonly CollectionProcessorInterface                       $collectionProcessor,
+        private readonly Session                                            $checkoutSession,
+        private readonly OrderRepositoryInterface                           $orderRepository,
+        private readonly MaskedQuoteIdToQuoteIdInterface                    $maskedQuoteIdToQuoteId
     )
     {
     }
 
-    public function save(TypeOrderInterface $typeOrder, string $cartId = null, string $name = null): TypeOrderInterface
+    public function save(
+        TypeOrderInterface $typeOrder,
+        string $cartId = null,
+        string $name = null
+    ): TypeOrderInterface
     {
         try {
             $typeOrderLoaded = $this->modelFactory->create();
@@ -40,8 +44,8 @@ class TypeOrderRepository implements TypeOrderRepositoryInterface
                 return $typeOrderLoaded;
             }
 
-            if(!$typeOrder->getQuoteId()) {
-                $quoteId = (string) $this->maskedQuoteIdToQuoteId->execute($cartId);
+            if (!$typeOrder->getQuoteId()) {
+                $quoteId = (string)$this->maskedQuoteIdToQuoteId->execute($cartId);
                 $typeOrderLoaded->setQuoteId($quoteId);
             } else {
                 $typeOrderLoaded->setQuoteId($typeOrder->getQuoteId());
@@ -67,7 +71,7 @@ class TypeOrderRepository implements TypeOrderRepositoryInterface
         return $typeOrder;
     }
 
-    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $criteria): TypeOrderSearchResultsInterface
+    public function getList(\Magento\Framework\Api\SearchCriteriaInterface $criteria): SearchResults
     {
         /** @var ResourceModel\TypeOrder\Collection $collection */
         $collection = $this->collectionFactory->create();
@@ -91,6 +95,10 @@ class TypeOrderRepository implements TypeOrderRepositoryInterface
         return true;
     }
 
+    /**
+     * @throws CouldNotDeleteException
+     * @throws NoSuchEntityException
+     */
     public function deleteById(int $typeOrderId): bool
     {
         return $this->delete($this->getById($typeOrderId));
@@ -100,6 +108,13 @@ class TypeOrderRepository implements TypeOrderRepositoryInterface
     {
         $typeOrder = $this->modelFactory->create();
         $this->resource->load($typeOrder, $quoteId, 'quote_id');
+        return $typeOrder;
+    }
+
+    public function getTypeOrderByOrderId(string $orderId): TypeOrderInterface
+    {
+        $typeOrder = $this->modelFactory->create();
+        $this->resource->load($typeOrder, $orderId, 'order_id');
         return $typeOrder;
     }
 }
