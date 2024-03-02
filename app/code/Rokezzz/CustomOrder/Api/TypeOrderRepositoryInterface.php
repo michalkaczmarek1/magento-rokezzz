@@ -10,30 +10,30 @@ use Rokezzz\CustomOrder\Api\Data\TypeOrderSearchResultsInterface;
 interface TypeOrderRepositoryInterface
 {
     /**
-     * @param SearchCriteriaInterface $searchCriteria
+     * @param SearchCriteriaInterface $searchSearchCriteria
      * @return TypeOrderSearchResultsInterface
      */
     public function getList(SearchCriteriaInterface $searchCriteria): SearchResults;
 
 
     /**
-     * @param int $typeOrderId
+     * @param int ?$typeOrderId
      * @return TypeOrderInterface
      */
-    public function getById(int $typeOrderId): TypeOrderInterface;
-
-
-    /**
-     * @param string $quoteId
-     * @return TypeOrderInterface
-     */
-    public function getByQuoteId(string $quoteId): TypeOrderInterface;
+    public function getById(?int $typeOrderId): TypeOrderInterface;
 
     /**
      * @param string $orderId
      * @return TypeOrderInterface
      */
     public function getTypeOrderByOrderId(string $orderId): TypeOrderInterface;
+
+    /**
+     * @param string $orderId
+     * @return TypeOrderInterface
+     */
+    public function getTypeOrderByQuoteId(string $orderId): TypeOrderInterface;
+
 
     /**
      * @param TypeOrderInterface $typeOrder
@@ -47,12 +47,6 @@ interface TypeOrderRepositoryInterface
      * @param string $cartId
      * @return TypeOrderInterface
      */
-    public function save(TypeOrderInterface $typeOrder, string $cartId, string $name): TypeOrderInterface;
-
-//    /**
-//     * @param TypeOrderInterface $entity
-//     * @return TypeOrderInterface
-//     */
-//    public function save(TypeOrderInterface $entity): TypeOrderInterface;
+    public function save(TypeOrderInterface $typeOrder, string $typeOrderId, string $cartId, string $name): ?TypeOrderInterface;
 }
 

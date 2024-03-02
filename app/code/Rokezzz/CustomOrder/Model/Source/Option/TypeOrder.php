@@ -2,25 +2,29 @@
 
 namespace Rokezzz\CustomOrder\Model\Source\Option;
 
-class TypeOrder
+use Magento\Framework\Data\OptionSourceInterface;
+use Rokezzz\CustomOrder\Model\ResourceModel\TypeOrder\CollectionFactory;
+
+class TypeOrder implements OptionSourceInterface
 {
-
-    /**#@-*/
-    protected $options = [];
-
     public function __construct(
-        array $options
+        private readonly CollectionFactory $typeOrderCollection
     )
     {
-        $this->options = $options;
     }
 
-    public function toOptionArray()
+    public function toOptionArray(): array
     {
+        $collection = $this->typeOrderCollection->create();
+        $collection->getSelect()->group('name')->distinct(true);
+        $items = $collection->addFieldToFilter('order_id', ['null' => true])->getItems();
         $types = [];
-        foreach ($this->options as $value => $label) {
-            $types[] = ['label' => $label, 'value' => $value];
+        if(count($items) > 0) {
+            foreach ($items as $typeOrder) {
+                $types[] = ['label' => $typeOrder['name'], 'value' => $typeOrder['type_order_id']];
+            }
         }
+
         return $types;
     }
 }

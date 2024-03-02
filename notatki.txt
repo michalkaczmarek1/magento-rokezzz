@@ -1,13 +1,27 @@
 zadanie
-Klient chce w swoim sklepie internetowym Magento 2.x dodać możliwość wyboru rodzaju zamówienia w checkoucie.
+1. Klient chce w swoim sklepie internetowym Magento 2.x dodać
+możliwość wyboru rodzaju zamówienia w checkoucie.
 Musisz dodać pola typu radio na stronie i zapisać wybór klienta w bazie danych.
-
+ - zapisac w tabeli sales_order id type_order_id
+ - tabela do przechowywanie type_order
 Domyślnie mają istnieć trzy rodzaje zamówienia: Standardowe, Ekspozycyjne i Testowe.
 Rodzaj zamówienia ma być osobną encją i połączony z zamówieniem przez relację.
 
+###################################
 Administrator musi widzieć informację o wybranym przez użytkownika rodzaju w podglądzie zamówienia.
+###################################
+
+##########################
 Dodatkowo można przygotować panel dla administratora, gdzie będzie mógł zarządzać rodzajami -
 przeglądać wszystkie, dodać nowe, edytować nazwę istniejącym lub usunąć wybrane.
+#############################
 
+
+//todo
+1. /var/www/html/vendor/vladflonta/magento2-webapi-log/Logger/Handler/Debug.php line 43
+napisac patcha
+
+1. extension attributes dla Order (type_order), zapisac w bazie type_order_id w tabeli sales_order
+i sales_order_grid
 u: localadmin
 p: quei9ahzeeFahqu3

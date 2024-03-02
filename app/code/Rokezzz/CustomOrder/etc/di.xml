@@ -6,10 +6,19 @@
     <preference for="Rokezzz\CustomOrder\Api\Data\TypeOrderInterface" type="Rokezzz\CustomOrder\Model\TypeOrder"/>
     <preference for="Rokezzz\CustomOrder\Api\Data\TypeOrderSearchResultsInterface"
                 type="Magento\Framework\Api\SearchResults"/>
-    <type name="Magento\Sales\Api\Data\OrderInterface">
-        <plugin name="OrderExtensionAttributeLoad" type="Rokezzz\CustomOrder\Plugin\OrderAttributesLoadPlugin"/>
+
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="type_order_listing_data_source" xsi:type="string">TypeOrderCollection</item>
+            </argument>
+        </arguments>
     </type>
-    <type name="Magento\Sales\Api\OrderRepositoryInterface">
-        <plugin name="OrderExtensionAttributeOperations" type="Rokezzz\CustomOrder\Plugin\OrderRepositoryPlugin"/>
-    </type>
+
+    <virtualType name="TypeOrderCollection" type="Rokezzz\CustomOrder\Ui\Component\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">type_order</argument>
+            <argument name="resourceModel" xsi:type="string">Rokezzz\CustomOrder\Model\ResourceModel\TypeOrder</argument>
+        </arguments>
+    </virtualType>
 </config>

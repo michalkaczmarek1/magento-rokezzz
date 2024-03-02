@@ -29,11 +29,12 @@ define([
             let url = urlBuilder.createUrl('/order/type/save', {});
 
             let typeOrderId = $('div[name="shippingAddress.type_order"] .admin__control-radio:checked').val();
-            let typeOrderName = $('div[name="shippingAddress.type_order"] label[for='+ typeOrderId +']').text();
+            let typeOrderName = $('div[name="shippingAddress.type_order"] input[value='+ typeOrderId +']').siblings().text();
             if (typeOrderId) {
                 let payload = {
                     'cartId': quoteId,
                     'typeOrder': typeOrderId,
+                    'typeOrderId': typeOrderId,
                     'name': typeOrderName,
                     'isCustomer'    : isCustomer
                 };
