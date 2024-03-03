@@ -3,44 +3,44 @@
 namespace Rokezzz\CustomOrder\Block\Adminhtml;
 
 use Magento\Backend\Block\Widget\Context;
-use Magento\Framework\App\Request\DataPersistorInterface;
 use Rokezzz\CustomOrder\Api\TypeOrderRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 
 class GenericButton
 {
-    protected Context $context;
-
-    protected TypeOrderRepositoryInterface $typeOrderRepository;
-    private DataPersistorInterface $dataPersistor;
-
+    /**
+     *
+     * @param Context $context
+     * @param TypeOrderRepositoryInterface $typeOrderRepository
+     */
     public function __construct(
-        Context                      $context,
-        TypeOrderRepositoryInterface $typeOrderRepository
-    )
-    {
-        $this->context = $context;
-        $this->typeOrderRepository = $typeOrderRepository;
+        private readonly Context                      $context,
+        private readonly TypeOrderRepositoryInterface $typeOrderRepository
+    ) {
     }
 
-
-//    public function getId()
-//    {
-//        $typeOrder = $this->dataPersistor->get('type_order');
-//        return $typeOrder ? $type->getId() : null;
-//    }
+    /**
+     *
+     * @return string|null
+     */
     public function getTypeOrderId(): ?string
     {
         try {
             return $this->typeOrderRepository->getById(
-                (int) $this->context->getRequest()->getParam('type_order_id')
+                (int)$this->context->getRequest()->getParam('type_order_id')
             )->getTypeOrderId();
         } catch (NoSuchEntityException $e) {
             return null;
         }
     }
 
-    public function getUrl($route = '', $params = []): string
+    /**
+     *
+     * @param string $route
+     * @param array $params
+     * @return string
+     */
+    public function getUrl(string $route = '', array $params = []): string
     {
         return $this->context->getUrlBuilder()->getUrl($route, $params);
     }

@@ -1,10 +1,9 @@
 <?php declare(strict_types=1);
 
-namespace Rokezzz\CustomOrder\Ui\Component\Listing\Column;
+namespace Rokezzz\CustomOrder\Ui\Component\Listing\Order\Column;
 
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
 use Magento\Framework\View\Element\UiComponentFactory;
-use Magento\Sales\Api\OrderRepositoryInterface;
 use Magento\Ui\Component\Listing\Columns\Column;
 use Rokezzz\CustomOrder\Api\TypeOrderRepositoryInterface;
 
@@ -16,8 +15,7 @@ class TypeOrder extends Column
         private readonly TypeOrderRepositoryInterface $typeOrderRepository,
         array                    $components = [],
         array                    $data = []
-    )
-    {
+    ) {
         parent::__construct($context, $uiComponentFactory, $components, $data);
     }
 

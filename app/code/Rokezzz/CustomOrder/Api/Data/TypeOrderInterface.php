@@ -2,66 +2,76 @@
 
 namespace Rokezzz\CustomOrder\Api\Data;
 
-use DateTime;
-
 interface TypeOrderInterface
 {
+
     /**
+     *
      * @return ?string
      */
     public function getTypeOrderId(): ?string;
 
     /**
-     * @return string
+     *
+     * @return ?string
      */
     public function getName(): ?string;
 
     /**
-     * @param string $name
+     *
+     * @param ?string $name
      * @return void
      */
     public function setName(?string $name): void;
 
     /**
-     * @return string
+     *
+     * @return ?string
      */
     public function getIncrementId(): ?string;
 
     /**
+     *
      * @param ?string $incrementId
      * @return void
      */
     public function setIncrementId(?string $incrementId): void;
 
     /**
-     * @return string
+     *
+     * @return ?string
      */
     public function getOrderId(): ?string;
 
     /**
+     *
      * @param ?string $orderId
      * @return void
      */
     public function setOrderId(?string $orderId): void;
 
     /**
-     * @return int
+     *
+     * @return ?string
      */
     public function getQuoteId(): ?string;
 
     /**
-     * @param ?int $quoteId
+     *
+     * @param ?string $quoteId
      * @return void
      */
     public function setQuoteId(?string $quoteId): void;
 
     /**
+     *
      * @return string
      */
-    public function getCreatedAt(): ?string;
+    public function getCreatedAt(): string;
 
     /**
+     *
      * @return string
      */
-    public function getUpdatedAt(): ?string;
+    public function getUpdatedAt(): string;
 }

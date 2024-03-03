@@ -7,10 +7,10 @@ use Magento\Framework\Setup\Patch\DataPatchInterface;
 
 class TypeOrderData implements DataPatchInterface
 {
+
     public function __construct(
-       private readonly ModuleDataSetupInterface $moduleDataSetup
-    )
-    {
+        private readonly ModuleDataSetupInterface $moduleDataSetup
+    ) {
     }
 
     public function apply(): void
@@ -30,11 +30,19 @@ class TypeOrderData implements DataPatchInterface
         $this->moduleDataSetup->endSetup();
     }
 
+    /**
+     *
+     * @return array|string[]
+     */
     public function getAliases(): array
     {
         return [];
     }
 
+    /**
+     *
+     * @return array|string[]
+     */
     public static function getDependencies(): array
     {
         return [];

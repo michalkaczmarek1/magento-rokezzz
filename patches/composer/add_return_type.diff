@@ -1,0 +1,16 @@
+diff --git a/Debug.php b/Logger/Handler/Debug.php
+similarity index 98%
+rename from Debug.php
+rename to Logger/Handler/Debug.php
+index bb734ec..83eb6d8 100644
+--- a/Debug.php
++++ b/Logger/Handler/Debug.php
+@@ -40,7 +40,7 @@ class Debug extends \Magento\Framework\Logger\Handler\Debug
+      * @param array $record
+      * @throws \Magento\Framework\Exception\LocalizedException
+      */
+-    public function write(array $record)
++    public function write(array $record): void
+     {
+         if (!isset($record['context']['is_api']) || !$record['context']['is_api']) {
+             parent::write($record);

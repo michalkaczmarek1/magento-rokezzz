@@ -2,15 +2,16 @@
 
 namespace Rokezzz\CustomOrder\Model;
 
-use Magento\Checkout\Model\Session;
 use Magento\Framework\Api\SearchCriteriaInterface;
 use Magento\Framework\Api\SearchResults;
 use Magento\Framework\App\Area;
+use Magento\Framework\App\Request\DataPersistorInterface;
 use Magento\Framework\App\State;
+use Magento\Framework\Exception\AlreadyExistsException;
 use Magento\Quote\Model\MaskedQuoteIdToQuoteIdInterface;
 use Rokezzz\CustomOrder\Api\Data\TypeOrderInterface;
-use Rokezzz\CustomOrder\Api\Data\TypeOrderSearchResultsInterface;
 use Rokezzz\CustomOrder\Api\TypeOrderRepositoryInterface;
+use Rokezzz\CustomOrder\Model\ResourceModel\TypeOrder as TypeOrderResource;
 use Rokezzz\CustomOrder\Model\ResourceModel\TypeOrder\Collection;
 use Magento\Framework\Api\SearchCriteria\CollectionProcessorInterface;
 use Magento\Framework\Exception\CouldNotDeleteException;
@@ -20,49 +21,42 @@ use Magento\Framework\Exception\NoSuchEntityException;
 class TypeOrderRepository implements TypeOrderRepositoryInterface
 {
     public function __construct(
-        private readonly \Rokezzz\CustomOrder\Model\ResourceModel\TypeOrder $resource,
-        private readonly TypeOrderFactory                                   $modelFactory,
-        private readonly Collection                                         $collectionFactory,
-        private readonly SearchResults                                      $searchResults,
-        private readonly CollectionProcessorInterface                       $collectionProcessor,
-        private readonly Session                                            $checkoutSession,
-        private readonly MaskedQuoteIdToQuoteIdInterface                    $maskedQuoteIdToQuoteId,
-        private readonly State                                              $state
-    )
-    {
+        private readonly TypeOrderResource               $resource,
+        private readonly TypeOrderFactory                $modelFactory,
+        private readonly Collection                      $collectionFactory,
+        private readonly SearchResults                   $searchResults,
+        private readonly CollectionProcessorInterface    $collectionProcessor,
+        private readonly MaskedQuoteIdToQuoteIdInterface $maskedQuoteIdToQuoteId,
+        private readonly State                           $state
+    ) {
     }
 
+    /**
+     *
+     * @throws CouldNotSaveException
+     */
     public function save(
         TypeOrderInterface $typeOrder,
         string             $typeOrderId = null,
-        string             $cartId = null,
-        string             $name = null
-    ): ?TypeOrderInterface
-    {
+        string             $cartId = null
+    ): TypeOrderInterface {
         try {
-            if ($typeOrder->getOrderId() && $typeOrder->getIncrementId()) {
-                $this->resource->save($typeOrder);
-                return $typeOrder;
-            }
-
             $typeOrderLoaded = $this->modelFactory->create();
-            $this->resource->load($typeOrderLoaded, (int) $typeOrderId);
             if ($this->state->getAreaCode() === Area::AREA_ADMINHTML) {
-                $typeOrderLoaded->setName($typeOrder->getName());
+                $this->saveTypeOrderInAdminArea($typeOrder, $typeOrderLoaded);
+            }
+
+            if ($this->state->getAreaCode() === Area::AREA_WEBAPI_REST) {
+                $typeOrderWithOrderId = $this->saveTypeOrderWithOrderId($typeOrder);
+                if (!empty($typeOrderWithOrderId)) {
+                    return $typeOrderWithOrderId;
+                }
+
+                $this->saveQuoteIdOnTypeOrder($typeOrderLoaded, $typeOrderId, $cartId);
                 $this->resource->save($typeOrderLoaded);
-                return $typeOrderLoaded;
-            }
-            if (!$typeOrder->getQuoteId() && $cartId) {
-                $quoteId = (string)$this->maskedQuoteIdToQuoteId->execute($cartId);
-                $typeOrderLoaded->setQuoteId($quoteId);
             }
 
-            if (!$typeOrderLoaded->getName() && $name) {
-                $typeOrderLoaded->setName($name);
-            }
-
-            $this->resource->save($typeOrderLoaded);
-            return $typeOrderLoaded;
+            return !empty($typeOrderLoaded->getTypeOrderId()) ? $typeOrderLoaded : $typeOrder;
         } catch (\Exception $exception) {
             throw new CouldNotSaveException(__($exception->getMessage()));
         }
@@ -75,6 +69,7 @@ class TypeOrderRepository implements TypeOrderRepositoryInterface
         if (!$typeOrder->getId()) {
             throw new NoSuchEntityException(__('The type order with the "%1" ID doesn\'t exist.', $typeOrderId));
         }
+
         return $typeOrder;
     }
 
@@ -97,6 +92,7 @@ class TypeOrderRepository implements TypeOrderRepositoryInterface
         } catch (\Exception $exception) {
             throw new CouldNotDeleteException(__($exception->getMessage()));
         }
+
         return true;
     }
 
@@ -122,5 +118,49 @@ class TypeOrderRepository implements TypeOrderRepositoryInterface
         $this->resource->load($typeOrder, $quoteId, 'quote_id');
         return $typeOrder;
     }
-}
 
+    /**
+     *
+     * @throws AlreadyExistsException
+     */
+    private function saveTypeOrderWithOrderId(TypeOrderInterface $typeOrder): ?TypeOrderInterface
+    {
+        if (($typeOrder->getOrderId() && $typeOrder->getTypeOrderId()) && !empty($typeOrder->getQuoteId())) {
+            $this->resource->save($typeOrder);
+            return $typeOrder;
+        }
+
+        return null;
+    }
+
+    /**
+     *
+     * @throws NoSuchEntityException
+     */
+    private function saveQuoteIdOnTypeOrder(TypeOrder $typeOrderLoaded, ?string $typeOrderId, ?string $cartId): void
+    {
+        $this->resource->load($typeOrderLoaded, (int)$typeOrderId);
+        if (!$typeOrderLoaded->getQuoteId() && $cartId) {
+            $quoteId = (string)$this->maskedQuoteIdToQuoteId->execute($cartId);
+            $typeOrderLoaded->setQuoteId($quoteId);
+        }
+    }
+
+    /**
+     *
+     * @throws AlreadyExistsException
+     */
+    private function saveTypeOrderInAdminArea(
+        TypeOrderInterface $typeOrder,
+        TypeOrder $typeOrderLoaded
+    ): TypeOrderInterface {
+        if ($typeOrder->getTypeOrderId()) {
+            $this->resource->save($typeOrder);
+            return $typeOrder;
+        } else {
+            $typeOrderLoaded->setName($typeOrder->getName());
+            $this->resource->save($typeOrderLoaded);
+            return $typeOrderLoaded;
+        }
+    }
+}

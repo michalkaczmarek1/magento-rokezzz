@@ -22,7 +22,7 @@
     </settings>
     <dataSource name="type_order_form_data_source">
         <argument name="dataProvider" xsi:type="configurableObject">
-            <argument name="class" xsi:type="string">Rokezzz\CustomOrder\Ui\Component\Form\DataProvider</argument>
+            <argument name="class" xsi:type="string">Rokezzz\CustomOrder\Model\TypeOrder\DataProvider</argument>
             <argument name="name" xsi:type="string">type_order_form_data_source</argument>
             <argument name="primaryFieldName" xsi:type="string">type_order_id</argument>
             <argument name="requestFieldName" xsi:type="string">type_order_id</argument>

@@ -3,16 +3,18 @@
 namespace Rokezzz\CustomOrder\Block\Adminhtml;
 
 use Magento\Framework\View\Element\UiComponent\Control\ButtonProviderInterface;
-use Magento\Ui\Component\Control\Container;
 
 class SaveButton extends GenericButton implements ButtonProviderInterface
 {
+    /**
+     *
+     * @return array
+     */
     public function getButtonData(): array
     {
         return [
             'label' => __('Save'),
             'class' => 'save primary',
-//            'on_click' => sprintf("location.href = '%s';", $this->getSaveUrl()),
             'data_attribute' => [
                 'mage-init' => [
                     'buttonAdapter' => [
@@ -32,10 +34,5 @@ class SaveButton extends GenericButton implements ButtonProviderInterface
                 ]
             ],
         ];
-    }
-
-    public function getSaveUrl(): string
-    {
-        return $this->getUrl('type_order_grid_/type_order/save');
     }
 }

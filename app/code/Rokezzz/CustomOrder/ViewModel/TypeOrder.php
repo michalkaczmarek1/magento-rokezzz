@@ -8,11 +8,13 @@ use Rokezzz\CustomOrder\Api\TypeOrderRepositoryInterface;
 
 class TypeOrder implements ArgumentInterface
 {
+
     public function __construct(
         private readonly TypeOrderRepositoryInterface $typeOrderRepository
-    ) {}
+    ) {
+    }
 
-    public function getTypeOrderByOrderId(string $orderId): TypeOrderInterface
+    public function getTypeOrder(string $orderId): TypeOrderInterface
     {
         return $this->typeOrderRepository->getTypeOrderByOrderId($orderId);
     }

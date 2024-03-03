@@ -5,28 +5,27 @@ namespace Rokezzz\CustomOrder\Controller\Adminhtml\TypeOrder;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpGetActionInterface;
+use Magento\Framework\App\ResponseInterface;
+use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
+use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Registry;
-use Magento\Framework\View\Result\PageFactory;
+use Magento\Framework\View\Result\Page;
 use Rokezzz\CustomOrder\Model\ResourceModel\TypeOrder;
+use Rokezzz\CustomOrder\Model\TypeOrder as TypeOrderModel;
 use Rokezzz\CustomOrder\Model\TypeOrderFactory;
 
 class Edit extends Action implements HttpGetActionInterface
 {
-    protected PageFactory $resultPageFactory;
-    private Registry $coreRegister;
+    public const ADMIN_RESOURCE = 'Rokezzz_CustomOrder::typeorder';
 
     public function __construct(
         Context $context,
-        PageFactory $resultPageFactory,
-        Registry $coreRegister,
+        private readonly Registry $coreRegister,
         private readonly TypeOrder $typeOrderResource,
         private readonly TypeOrderFactory $typeOrderFactory,
     ) {
-
         parent::__construct($context);
-        $this->resultPageFactory = $resultPageFactory;
-        $this->coreRegister = $coreRegister;
     }
 
     public function execute()
@@ -35,18 +34,22 @@ class Edit extends Action implements HttpGetActionInterface
         $typeOrder = $this->typeOrderFactory->create();
         if ($id) {
             $this->typeOrderResource->load($typeOrder, $id);
-            if (!$typeOrder->getId()) {
+            if (!$typeOrder->getTypeOrderId()) {
                 $this->messageManager->addErrorMessage(__('This type_order no longer exists.'));
                 $resultRedirect = $this->resultRedirectFactory->create();
-                return $resultRedirect->setPath('type_order_grid/typeorder/index');
+                return $resultRedirect->setPath('*/*/index');
             }
         }
 
+        return $this->configPageAndRedirect($typeOrder, $id);
+    }
+
+    private function configPageAndRedirect(TypeOrderModel $typeOrder, int $id)
+    {
         $this->coreRegister->register('type_order', $typeOrder);
         $resultPage = $this->resultFactory->create(ResultFactory::TYPE_PAGE);
         $title = $id ? __('Edit Type Order ') : __('Add Type Order');
         $resultPage->getConfig()->getTitle()->prepend($title);
-
         return $resultPage;
     }
 }

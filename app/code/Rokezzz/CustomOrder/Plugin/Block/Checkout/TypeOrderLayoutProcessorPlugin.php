@@ -5,19 +5,21 @@ namespace Rokezzz\CustomOrder\Plugin\Block\Checkout;
 use Magento\Checkout\Block\Checkout\LayoutProcessor;
 use Rokezzz\CustomOrder\Model\Source\Option\TypeOrder;
 
-class TypeOrderProcessorPlugin
+class TypeOrderLayoutProcessorPlugin
 {
+
     public function __construct(
         private readonly TypeOrder $typeOrderOptions
-    )
-    {
+    ) {
     }
 
     public function afterProcess(LayoutProcessor $subject, array $jsLayout): array
     {
-        $jsLayout['components']['checkout']['children']['steps']['children']['shipping-step']['children']
-        ['shippingAddress']['children']['before-form']['children']['type_order'] = [
+        $jsLayout['components']['checkout']['children']['steps']['children']
+        ['shipping-step']['children']['shippingAddress']['children']['before-form']
+        ['children']['type_order'] = [
             'component' => 'Magento_Ui/js/form/element/checkbox-set',
+            'label' => 'Type Order',
             'config' => [
                 'customScope' => 'customCheckoutForm',
                 'template' => 'ui/form/field',
@@ -26,14 +28,12 @@ class TypeOrderProcessorPlugin
                 'multiple' => false
             ],
             'dataScope' => 'shippingAddress.type_order',
-            'label' => __('Type Order'),
             'provider' => 'checkoutProvider',
             'visible' => true,
             'validation' => [],
             'sortOrder' => 200,
             'id' => 'type_order'
         ];
-
 
         return $jsLayout;
     }

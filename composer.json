@@ -11,13 +11,15 @@
             "dealerdirect/phpcodesniffer-composer-installer": true,
             "laminas/laminas-dependency-plugin": true,
             "magento/*": true,
-            "php-http/discovery": true
+            "php-http/discovery": true,
+            "cweagans/composer-patches": true
         },
         "preferred-install": "dist",
         "sort-packages": true
     },
     "version": "2.4.6-p4",
     "require": {
+        "cweagans/composer-patches": "^1.7",
         "magento/composer-dependency-version-audit-plugin": "~0.1",
         "magento/composer-root-update-plugin": "~2.0",
         "magento/module-bundle-sample-data": "100.4.*",
@@ -103,7 +105,12 @@
         }
     ],
     "extra": {
-        "magento-force": "override"
+        "magento-force": "override",
+        "patches": {
+            "vladflonta/magento2-webapi-log": {
+                "Add return type to write method": "patches/composer/add_return_type.diff"
+            }
+        }
     },
     "scripts": {
         "phpcs": "phpcs --standard=Magento2"

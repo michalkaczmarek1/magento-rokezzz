@@ -1,11 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:App/etc/routes.xsd">
     <router id="admin">
         <route id="type_order_grid" frontName="type_order_grid">
-            <module name="Rokezzz_CustomOrder" before="Magento_Backend" />
+            <module name="Rokezzz_CustomOrder" before="Magento_Backend"/>
         </route>
         <route id="type_order_form" frontName="type_order_form">
-            <module name="Rokezzz_CustomOrder" before="Magento_Backend" />
+            <module name="Rokezzz_CustomOrder" before="Magento_Backend"/>
         </route>
     </router>
 </config>

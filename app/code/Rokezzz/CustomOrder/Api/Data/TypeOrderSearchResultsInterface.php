@@ -8,13 +8,15 @@ interface TypeOrderSearchResultsInterface extends SearchResultsInterface
 {
 
     /**
-     * @return mixed
+     *
+     * @return array
      */
-    public function getItems();
+    public function getItems(): array;
 
     /**
+     *
      * @param array $items
-     * @return mixed
+     * @return array
      */
-    public function setItems(array $items);
+    public function setItems(array $items): array;
 }

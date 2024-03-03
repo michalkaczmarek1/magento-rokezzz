@@ -10,20 +10,19 @@ use Magento\Framework\View\Result\PageFactory;
 
 class Index extends Action implements HttpGetActionInterface
 {
-    private PageFactory $pageFactory;
+    public const ADMIN_RESOURCE = 'Rokezzz_CustomOrder::typeorder';
 
     public function __construct(
         Context $context,
-        PageFactory $rawFactory
+        private readonly PageFactory $pageFactory
     ) {
-        $this->pageFactory = $rawFactory;
         parent::__construct($context);
     }
 
     public function execute(): Page
     {
         $resultPage = $this->pageFactory->create();
-        $resultPage->setActiveMenu('Magento_Sales::sales');
+        $resultPage->setActiveMenu('Rokezzz_CustomOrder::listing');
         $resultPage->getConfig()->getTitle()->prepend(__('Type Orders'));
 
         return $resultPage;
