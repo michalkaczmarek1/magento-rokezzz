@@ -2,33 +2,36 @@
 
 namespace Rokezzz\CustomOrder\Model\Source\Option;
 
+use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Data\OptionSourceInterface;
 use Rokezzz\CustomOrder\Model\ResourceModel\TypeOrder\CollectionFactory;
 
 class TypeOrder implements OptionSourceInterface
 {
     public function __construct(
-        private readonly CollectionFactory $typeOrderCollection
+        private readonly CollectionFactory $typeOrderCollection,
+        private readonly ScopeConfigInterface $scopeConfig
     ) {
     }
 
     public function toOptionArray(): array
     {
-        $items = $this->getTypeOrders();
-        $types = [];
-        if (count($items) > 0) {
-            foreach ($items as $typeOrder) {
-                $types[] = ['label' => $typeOrder['name'], 'value' => $typeOrder['type_order_id']];
-            }
-        }
-
-        return $types;
+        return $this->getTypeOrders();
     }
 
     private function getTypeOrders(): array
     {
-        $collection = $this->typeOrderCollection->create();
-        $collection->getSelect()->group('name')->distinct(true);
-        return $collection->addFieldToFilter('order_id', ['null' => true])->getItems();
+        $typeOrderIds = $this->scopeConfig->getValue('sales/type_orders/type_orders');
+        $arrTypeOrderIds = explode(',', $typeOrderIds);
+        $types = [];
+        foreach ($arrTypeOrderIds as $typeOrderId) {
+            $collection = $this->typeOrderCollection->create();
+            $typeOrder = $collection->addFieldToFilter('type_order_id', ['type_order_id' => $typeOrderId])->getItems();
+            foreach ($typeOrder as $value) {
+                $types[] = ['label' => $value->getName(), 'value' => $value->getTypeOrderId()];
+            }
+        }
+
+        return $types;
     }
 }

@@ -46,13 +46,7 @@ interface TypeOrderRepositoryInterface
     /**
      *
      * @param TypeOrderInterface $typeOrder
-     * @param string $typeOrderId
-     * @param string $cartId
      * @return TypeOrderInterface
      */
-    public function save(
-        TypeOrderInterface $typeOrder,
-        string $typeOrderId,
-        string $cartId
-    ): TypeOrderInterface;
+    public function save(TypeOrderInterface $typeOrder): TypeOrderInterface;
 }

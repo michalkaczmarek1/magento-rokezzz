@@ -65,13 +65,13 @@ interface TypeOrderInterface
 
     /**
      *
-     * @return string
+     * @return ?string
      */
-    public function getCreatedAt(): string;
+    public function getCreatedAt(): ?string;
 
     /**
      *
-     * @return string
+     * @return ?string
      */
-    public function getUpdatedAt(): string;
+    public function getUpdatedAt(): ?string;
 }

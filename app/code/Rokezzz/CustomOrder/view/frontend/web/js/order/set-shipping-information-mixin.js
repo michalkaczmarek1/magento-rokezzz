@@ -2,28 +2,22 @@ define([
     'jquery',
     'mage/utils/wrapper',
     'Magento_Checkout/js/model/quote',
-    'Magento_Customer/js/model/customer',
     'Magento_Checkout/js/model/url-builder',
     'mage/url',
-    'Magento_Checkout/js/model/error-processor',
-    'Magento_CheckoutAgreements/js/model/agreements-assigner'
+    'Magento_Checkout/js/model/error-processor'
 ], function (
     $,
     wrapper,
     quote,
-    customer,
     urlBuilder,
     urlFormatter,
-    errorProcessor,
-    agreementsAssigner
+    errorProcessor
 ) {
     'use strict';
 
-    return function (placeOrderAction) {
+    return function (setShippingInformationAction) {
 
-        return wrapper.wrap(placeOrderAction, function (originalAction, paymentData, messageContainer) {
-            agreementsAssigner(paymentData);
-            let isCustomer = customer.isLoggedIn();
+        return wrapper.wrap(setShippingInformationAction, function (originalAction) {
             let quoteId = quote.getQuoteId();
             let url = urlBuilder.createUrl('/order/type/save', {});
             let typeOrderId = $('div[name="shippingAddress.type_order"] .admin__control-radio:checked').val();
@@ -32,10 +26,8 @@ define([
             if (typeOrderId) {
                 let payload = {
                     'cartId': quoteId,
-                    'typeOrder': typeOrderId,
                     'typeOrderId': typeOrderId,
-                    'name': typeOrderName,
-                    'isCustomer': isCustomer
+                    'name': typeOrderName
                 };
 
                 if (!payload.typeOrderId) {
@@ -57,12 +49,12 @@ define([
                 ).fail(
                     function (response) {
                         result = false;
-                        errorProcessor.process(response, messageContainer);
+                        errorProcessor.process(response);
                     }
                 );
             }
 
-            return originalAction(paymentData, messageContainer);
+            return originalAction();
         });
     };
 });

@@ -41,12 +41,12 @@ class TypeOrder extends AbstractModel implements TypeOrderInterface
         $this->setData(self::NAME, $name);
     }
 
-    public function getCreatedAt(): string
+    public function getCreatedAt(): ?string
     {
         return $this->getData(self::CREATED_AT);
     }
 
-    public function getUpdatedAt(): string
+    public function getUpdatedAt(): ?string
     {
         return $this->getData(self::UPDATED_AT);
     }
