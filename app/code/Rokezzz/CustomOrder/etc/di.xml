@@ -23,6 +23,14 @@
         </arguments>
     </type>
 
+<!--    plugins -->
+    <type name="Magento\Sales\Api\Data\OrderInterface">
+        <plugin name="OrderAttributesLoad" type="Rokezzz\CustomOrder\Plugin\Order\OrderAttributesLoad"/>
+    </type>
+    <type name="Magento\Sales\Api\OrderRepositoryInterface">
+        <plugin name="AddExtensionAttribute" type="Rokezzz\CustomOrder\Plugin\Order\OrderRepository"/>
+    </type>
+
     <!--    virtual types -->
     <virtualType name="TypeOrderCollection" type="Rokezzz\CustomOrder\Ui\Component\Collection">
         <arguments>
