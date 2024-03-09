@@ -2,19 +2,17 @@
 
 namespace Rokezzz\CustomOrder\Model\Config\Source;
 
-use Magento\Framework\App\Config\ScopeConfigInterface;
 use Magento\Framework\Data\OptionSourceInterface;
 use Rokezzz\CustomOrder\Model\ResourceModel\TypeOrder\CollectionFactory;
 
 class TypeOrder implements OptionSourceInterface
 {
     public function __construct(
-        private readonly CollectionFactory $typeOrderCollection,
-        private readonly ScopeConfigInterface $scopeConfig
+        private readonly CollectionFactory $typeOrderCollection
     ) {
     }
 
-    public function toOptionArray($isMultiselect = true)
+    public function toOptionArray($isMultiselect = true): array
     {
         $items = $this->getTypeOrders();
         $options = [];
@@ -28,7 +26,6 @@ class TypeOrder implements OptionSourceInterface
     private function getTypeOrders(): array
     {
         $collection = $this->typeOrderCollection->create();
-        $collection->getSelect()->group('name')->distinct(true);
         return $collection->getItems();
     }
 }

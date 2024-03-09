@@ -11,12 +11,6 @@ class TypeOrder extends AbstractModel implements TypeOrderInterface
 
     private const NAME = 'name';
 
-    private const INCREMENT_ID = 'increment_id';
-
-    private const ORDER_ID = 'order_id';
-
-    private const QUOTE_ID = 'quote_id';
-
     private const CREATED_AT = 'created_at';
 
     private const UPDATED_AT = 'updated_at';
@@ -49,35 +43,5 @@ class TypeOrder extends AbstractModel implements TypeOrderInterface
     public function getUpdatedAt(): ?string
     {
         return $this->getData(self::UPDATED_AT);
-    }
-
-    public function getIncrementId(): ?string
-    {
-        return $this->getData(self::INCREMENT_ID);
-    }
-
-    public function setIncrementId(?string $incrementId): void
-    {
-        $this->setData(self::INCREMENT_ID, $incrementId);
-    }
-
-    public function getOrderId(): ?string
-    {
-        return $this->getData(self::ORDER_ID);
-    }
-
-    public function setOrderId(?string $orderId): void
-    {
-        $this->setData(self::ORDER_ID, $orderId);
-    }
-
-    public function getQuoteId(): ?string
-    {
-        return $this->getData(self::QUOTE_ID);
-    }
-
-    public function setQuoteId(?string $quoteId): void
-    {
-        $this->setData(self::QUOTE_ID, $quoteId);
     }
 }

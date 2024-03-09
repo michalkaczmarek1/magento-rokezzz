@@ -17,24 +17,10 @@ interface TypeOrderRepositoryInterface
 
     /**
      *
-     * @param int|null $typeOrderId
+     * @param int|null $typeOrderGridId
      * @return TypeOrderInterface
      */
-    public function getById(?int $typeOrderId): TypeOrderInterface;
-
-    /**
-     *
-     * @param string $orderId
-     * @return TypeOrderInterface
-     */
-    public function getTypeOrderByOrderId(string $orderId): TypeOrderInterface;
-
-    /**
-     *
-     * @param string $quoteId
-     * @return TypeOrderInterface
-     */
-    public function getTypeOrderByQuoteId(string $quoteId): TypeOrderInterface;
+    public function getById(?int $typeOrderGridId): TypeOrderInterface;
 
     /**
      *

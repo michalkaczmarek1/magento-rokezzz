@@ -5,10 +5,7 @@ namespace Rokezzz\CustomOrder\Controller\Adminhtml\TypeOrder;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpPostActionInterface;
-use Magento\Framework\App\Request\DataPersistorInterface;
-use Magento\Framework\App\ResponseInterface;
 use Magento\Framework\Controller\Result\Redirect;
-use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Exception\LocalizedException;
 use Rokezzz\CustomOrder\Api\Data\TypeOrderInterface;
 use Rokezzz\CustomOrder\Api\TypeOrderRepositoryInterface;
@@ -20,16 +17,8 @@ class Save extends Action implements HttpPostActionInterface
 
     private const GRID_URL = '*/*/index';
 
-    /**
-     *
-     * @param Context $context
-     * @param DataPersistorInterface $dataPersistor
-     * @param TypeOrderFactory $typeOrderFactory
-     * @param TypeOrderRepositoryInterface $typeOrderRepository
-     */
     public function __construct(
         Context                                       $context,
-        private readonly DataPersistorInterface       $dataPersistor,
         private readonly TypeOrderFactory             $typeOrderFactory,
         private readonly TypeOrderRepositoryInterface $typeOrderRepository
     ) {
@@ -64,14 +53,13 @@ class Save extends Action implements HttpPostActionInterface
         TypeOrderInterface $model,
         array              $data,
         Redirect           $resultRedirect,
-        ?int                $id
+        ?int               $id
     ): Redirect {
         try {
             $model->setData($data);
             $typeOrder = $this->typeOrderRepository->save($model);
             if ($typeOrder->getTypeOrderId()) {
                 $this->messageManager->addSuccessMessage(__('You saved the type order.'));
-                $this->dataPersistor->clear('type_order');
                 return $resultRedirect->setPath(self::GRID_URL);
             }
         } catch (LocalizedException $e) {
@@ -80,7 +68,6 @@ class Save extends Action implements HttpPostActionInterface
             $this->messageManager->addExceptionMessage($e, __('Something went wrong while saving the type order.'));
         }
 
-        $this->dataPersistor->set('type_order', $data);
         return $resultRedirect->setPath('*/*/edit', ['type_order_id' => $id]);
     }
 }

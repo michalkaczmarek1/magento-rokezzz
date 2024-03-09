@@ -2,7 +2,7 @@
 
 namespace Rokezzz\CustomOrder\Api;
 
-use Rokezzz\CustomOrder\Api\Data\TypeOrderInterface;
+use Rokezzz\CustomOrder\Api\Data\TypeOrderInfoInterface;
 
 interface TypeOrderManagementInterface
 {
@@ -12,11 +12,11 @@ interface TypeOrderManagementInterface
      * @param string $typeOrderId
      * @param string $name
      * @param string $cartId
-     * @return TypeOrderInterface
+     * @return TypeOrderInfoInterface
      */
     public function save(
         string $typeOrderId,
         string $name,
         string $cartId
-    ): TypeOrderInterface;
+    ): TypeOrderInfoInterface;
 }

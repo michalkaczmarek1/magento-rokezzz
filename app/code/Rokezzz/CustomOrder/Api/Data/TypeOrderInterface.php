@@ -28,45 +28,6 @@ interface TypeOrderInterface
      *
      * @return ?string
      */
-    public function getIncrementId(): ?string;
-
-    /**
-     *
-     * @param ?string $incrementId
-     * @return void
-     */
-    public function setIncrementId(?string $incrementId): void;
-
-    /**
-     *
-     * @return ?string
-     */
-    public function getOrderId(): ?string;
-
-    /**
-     *
-     * @param ?string $orderId
-     * @return void
-     */
-    public function setOrderId(?string $orderId): void;
-
-    /**
-     *
-     * @return ?string
-     */
-    public function getQuoteId(): ?string;
-
-    /**
-     *
-     * @param ?string $quoteId
-     * @return void
-     */
-    public function setQuoteId(?string $quoteId): void;
-
-    /**
-     *
-     * @return ?string
-     */
     public function getCreatedAt(): ?string;
 
     /**

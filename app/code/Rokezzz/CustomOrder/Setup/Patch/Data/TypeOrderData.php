@@ -30,19 +30,11 @@ class TypeOrderData implements DataPatchInterface
         $this->moduleDataSetup->endSetup();
     }
 
-    /**
-     *
-     * @return array|string[]
-     */
     public function getAliases(): array
     {
         return [];
     }
 
-    /**
-     *
-     * @return array|string[]
-     */
     public static function getDependencies(): array
     {
         return [];

@@ -4,16 +4,16 @@ namespace Rokezzz\CustomOrder\Model;
 
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Quote\Model\MaskedQuoteIdToQuoteIdInterface;
-use Rokezzz\CustomOrder\Api\Data\TypeOrderInterface;
+use Rokezzz\CustomOrder\Api\Data\TypeOrderInfoInterface;
 use Rokezzz\CustomOrder\Api\TypeOrderManagementInterface;
-use Rokezzz\CustomOrder\Api\TypeOrderRepositoryInterface;
+use Rokezzz\CustomOrder\Api\TypeOrderInfoRepositoryInterface;
 
 class TypeOrderManagement implements TypeOrderManagementInterface
 {
     public function __construct(
-        private readonly TypeOrderRepositoryInterface $typeOrderRepository,
-        private readonly MaskedQuoteIdToQuoteIdInterface $maskedQuoteIdToQuoteId,
-        private readonly TypeOrderFactory $typeOrderFactory
+        private readonly TypeOrderInfoRepositoryInterface $typeOrderInfoRepository,
+        private readonly MaskedQuoteIdToQuoteIdInterface  $maskedQuoteIdToQuoteId,
+        private readonly TypeOrderInfoFactory             $typeOrderInfoFactory
     ) {
     }
 
@@ -25,21 +25,22 @@ class TypeOrderManagement implements TypeOrderManagementInterface
         string $typeOrderId,
         string $name,
         string $cartId
-    ): TypeOrderInterface {
-        $typeOrder = $this->typeOrderFactory->create();
-        $typeOrder->setName($name);
-        return $this->setQuoteId($typeOrder, $cartId);
+    ): TypeOrderInfoInterface {
+        $typeOrderInfo = $this->typeOrderInfoFactory->create();
+        $typeOrderInfo->setTypeOrderId($typeOrderId);
+        $typeOrderInfo->setName($name);
+        return $this->setQuoteId($typeOrderInfo, $cartId);
     }
 
     /**
      *
      * @throws NoSuchEntityException
      */
-    private function setQuoteId(TypeOrderInterface $typeOrder, string $cartId): TypeOrder
+    private function setQuoteId(TypeOrderInfoInterface $typeOrderInfo, string $cartId): TypeOrderInfo
     {
         $quoteId = $this->maskedQuoteIdToQuoteId->execute($cartId);
-        $typeOrder->setQuoteId((string)$quoteId);
-        $this->typeOrderRepository->save($typeOrder);
-        return $typeOrder;
+        $typeOrderInfo->setQuoteId((string)$quoteId);
+        $this->typeOrderInfoRepository->save($typeOrderInfo);
+        return $typeOrderInfo;
     }
 }

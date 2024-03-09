@@ -3,19 +3,19 @@
 namespace Rokezzz\CustomOrder\ViewModel;
 
 use Magento\Framework\View\Element\Block\ArgumentInterface;
-use Rokezzz\CustomOrder\Api\Data\TypeOrderInterface;
-use Rokezzz\CustomOrder\Api\TypeOrderRepositoryInterface;
+use Rokezzz\CustomOrder\Api\Data\TypeOrderInfoInterface;
+use Rokezzz\CustomOrder\Api\TypeOrderInfoRepositoryInterface;
 
 class TypeOrder implements ArgumentInterface
 {
 
     public function __construct(
-        private readonly TypeOrderRepositoryInterface $typeOrderRepository
+        private readonly TypeOrderInfoRepositoryInterface $typeOrderInfoRepository
     ) {
     }
 
-    public function getTypeOrder(string $orderId): TypeOrderInterface
+    public function getTypeOrder(string $orderId): TypeOrderInfoInterface
     {
-        return $this->typeOrderRepository->getTypeOrderByOrderId($orderId);
+        return $this->typeOrderInfoRepository->getTypeOrderByOrderId($orderId);
     }
 }

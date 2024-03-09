@@ -107,12 +107,6 @@
                 <label translate="true">Name</label>
             </settings>
         </column>
-        <column name="increment_id">
-            <settings>
-                <filter>text</filter>
-                <label translate="true">Order Increment Id</label>
-            </settings>
-        </column>
         <column name="created_at" class="Magento\Ui\Component\Listing\Columns\Date"
                 component="Magento_Ui/js/grid/columns/date">
             <settings>

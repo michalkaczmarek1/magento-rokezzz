@@ -26,6 +26,10 @@ class MassDelete extends Action implements HttpPostActionInterface
         parent::__construct($context);
     }
 
+    /**
+     * @throws NotFoundException
+     * @throws LocalizedException
+     */
     public function execute(): Redirect
     {
         if (!$this->getRequest()->isPost()) {
@@ -42,6 +46,9 @@ class MassDelete extends Action implements HttpPostActionInterface
         return $this->resultFactory->create(ResultFactory::TYPE_REDIRECT)->setPath('*/*/index');
     }
 
+    /**
+     * @throws LocalizedException
+     */
     private function getTypeOrderDeleted(): int
     {
         $collection = $this->filter->getCollection($this->collectionFactory->create());

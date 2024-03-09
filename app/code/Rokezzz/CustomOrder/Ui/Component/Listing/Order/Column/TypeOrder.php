@@ -5,16 +5,16 @@ namespace Rokezzz\CustomOrder\Ui\Component\Listing\Order\Column;
 use Magento\Framework\View\Element\UiComponent\ContextInterface;
 use Magento\Framework\View\Element\UiComponentFactory;
 use Magento\Ui\Component\Listing\Columns\Column;
-use Rokezzz\CustomOrder\Api\TypeOrderRepositoryInterface;
+use Rokezzz\CustomOrder\Api\TypeOrderInfoRepositoryInterface;
 
 class TypeOrder extends Column
 {
     public function __construct(
-        ContextInterface         $context,
-        UiComponentFactory       $uiComponentFactory,
-        private readonly TypeOrderRepositoryInterface $typeOrderRepository,
-        array                    $components = [],
-        array                    $data = []
+        ContextInterface                                  $context,
+        UiComponentFactory                                $uiComponentFactory,
+        private readonly TypeOrderInfoRepositoryInterface $typeOrderInfoRepository,
+        array                                             $components = [],
+        array                                             $data = []
     ) {
         parent::__construct($context, $uiComponentFactory, $components, $data);
     }
@@ -23,7 +23,7 @@ class TypeOrder extends Column
     {
         if (isset($dataSource['data']['items'])) {
             foreach ($dataSource['data']['items'] as & $item) {
-                $typeOrder = $this->typeOrderRepository->getTypeOrderByOrderId($item["entity_id"]);
+                $typeOrder = $this->typeOrderInfoRepository->getTypeOrderByOrderId($item["entity_id"]);
                 $item[$this->getData('name')] = $typeOrder->getName();
             }
         }

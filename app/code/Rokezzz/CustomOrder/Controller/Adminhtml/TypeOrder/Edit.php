@@ -5,13 +5,9 @@ namespace Rokezzz\CustomOrder\Controller\Adminhtml\TypeOrder;
 use Magento\Backend\App\Action;
 use Magento\Backend\App\Action\Context;
 use Magento\Framework\App\Action\HttpGetActionInterface;
-use Magento\Framework\App\ResponseInterface;
-use Magento\Framework\Controller\Result\Redirect;
 use Magento\Framework\Controller\ResultFactory;
-use Magento\Framework\Controller\ResultInterface;
 use Magento\Framework\Registry;
-use Magento\Framework\View\Result\Page;
-use Rokezzz\CustomOrder\Model\ResourceModel\TypeOrder;
+use Rokezzz\CustomOrder\Model\ResourceModel\TypeOrder as TypeOrderResource;
 use Rokezzz\CustomOrder\Model\TypeOrder as TypeOrderModel;
 use Rokezzz\CustomOrder\Model\TypeOrderFactory;
 
@@ -20,9 +16,9 @@ class Edit extends Action implements HttpGetActionInterface
     public const ADMIN_RESOURCE = 'Rokezzz_CustomOrder::typeorder';
 
     public function __construct(
-        Context $context,
-        private readonly Registry $coreRegister,
-        private readonly TypeOrder $typeOrderResource,
+        Context                           $context,
+        private readonly Registry         $coreRegister,
+        private readonly TypeOrderResource    $typeOrderResource,
         private readonly TypeOrderFactory $typeOrderFactory,
     ) {
         parent::__construct($context);

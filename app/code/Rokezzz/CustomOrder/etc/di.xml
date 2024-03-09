@@ -2,9 +2,15 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
     <!--    preferences -->
+    <preference for="Rokezzz\CustomOrder\Api\TypeOrderInfoRepositoryInterface"
+                type="Rokezzz\CustomOrder\Model\TypeOrderInfoRepository"/>
     <preference for="Rokezzz\CustomOrder\Api\TypeOrderRepositoryInterface"
                 type="Rokezzz\CustomOrder\Model\TypeOrderRepository"/>
+    <preference for="Rokezzz\CustomOrder\Api\Data\TypeOrderInfoInterface"
+                type="Rokezzz\CustomOrder\Model\TypeOrderInfo"/>
     <preference for="Rokezzz\CustomOrder\Api\Data\TypeOrderInterface" type="Rokezzz\CustomOrder\Model\TypeOrder"/>
+    <preference for="Rokezzz\CustomOrder\Api\Data\TypeOrderInfoSearchResultsInterface"
+                type="Magento\Framework\Api\SearchResults"/>
     <preference for="Rokezzz\CustomOrder\Api\Data\TypeOrderSearchResultsInterface"
                 type="Magento\Framework\Api\SearchResults"/>
 
@@ -16,9 +22,6 @@
             </argument>
         </arguments>
     </type>
-
-<!--    plugins -->
-
 
     <!--    virtual types -->
     <virtualType name="TypeOrderCollection" type="Rokezzz\CustomOrder\Ui\Component\Collection">

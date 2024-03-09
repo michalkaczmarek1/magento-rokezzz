@@ -69,17 +69,5 @@
                 </validation>
             </settings>
         </field>
-        <field name="increment_id">
-            <argument name="data" xsi:type="array">
-                <item name="config" xsi:type="array">
-                    <item name="label" xsi:type="string">Order Increment Id</item>
-                    <item name="visible" xsi:type="boolean">true</item>
-                    <item name="dataType" xsi:type="string">text</item>
-                    <item name="formElement" xsi:type="string">input</item>
-                    <item name="disabled" xsi:type="boolean">true</item>
-                    <item name="source" xsi:type="string">type_order_form</item>
-                </item>
-            </argument>
-        </field>
     </fieldset>
 </form>
