@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <!--    preferences -->
+    <preference for="Rokezzz\CustomOrder\Api\TypeOrderInfoRepositoryInterface"
+                type="Rokezzz\CustomOrder\Model\TypeOrderInfoRepository"/>
+    <preference for="Rokezzz\CustomOrder\Api\TypeOrderRepositoryInterface"
+                type="Rokezzz\CustomOrder\Model\TypeOrderRepository"/>
+    <preference for="Rokezzz\CustomOrder\Api\Data\TypeOrderInfoInterface"
+                type="Rokezzz\CustomOrder\Model\TypeOrderInfo"/>
+    <preference for="Rokezzz\CustomOrder\Api\Data\TypeOrderInterface" type="Rokezzz\CustomOrder\Model\TypeOrder"/>
+    <preference for="Rokezzz\CustomOrder\Api\Data\TypeOrderInfoSearchResultsInterface"
+                type="Magento\Framework\Api\SearchResults"/>
+    <preference for="Rokezzz\CustomOrder\Api\Data\TypeOrderSearchResultsInterface"
+                type="Magento\Framework\Api\SearchResults"/>
+
+    <!--    types -->
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="type_order_listing_data_source" xsi:type="string">TypeOrderCollection</item>
+            </argument>
+        </arguments>
+    </type>
+
+<!--    plugins -->
+    <type name="Magento\Sales\Api\Data\OrderInterface">
+        <plugin name="OrderAttributesLoad" type="Rokezzz\CustomOrder\Plugin\Order\OrderAttributesLoad"/>
+    </type>
+    <type name="Magento\Sales\Api\OrderRepositoryInterface">
+        <plugin name="AddExtensionAttribute" type="Rokezzz\CustomOrder\Plugin\Order\OrderRepository"/>
+    </type>
+
+    <!--    virtual types -->
+    <virtualType name="TypeOrderCollection" type="Rokezzz\CustomOrder\Ui\Component\Collection">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">type_order</argument>
+            <argument name="resourceModel" xsi:type="string">
+                Rokezzz\CustomOrder\Model\ResourceModel\TypeOrder
+            </argument>
+        </arguments>
+    </virtualType>
+</config>

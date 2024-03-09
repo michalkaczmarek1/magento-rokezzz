@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="type_order_info" resource="default" engine="innodb" comment="Type Order Info Table">
+        <column xsi:type="int" name="entity_id" unsigned="true" nullable="false" identity="true"
+                comment="Type Order ID"/>
+        <column xsi:type="int" name="type_order_id" unsigned="true" nullable="false" comment="Type Order ID"/>
+        <column xsi:type="int" name="order_id" unsigned="true" nullable="true" comment="Order ID"/>
+        <column xsi:type="int" name="quote_id" unsigned="true" nullable="true" comment="Quote ID"/>
+        <column xsi:type="varchar" name="name" nullable="false" length="60" default="Standardowe" comment="Name"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Creation Time"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Update Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="entity_id"/>
+        </constraint>
+        <constraint xsi:type="foreign" referenceId="TYPE_ORDER_INFO_TYPE_ORDER_ID_TYPE_ORDER_TYPE_ORDER_ID"
+                    table="type_order_info" column="type_order_id" referenceTable="type_order"
+                    referenceColumn="type_order_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="TYPE_ORDER_ORDER_ID_SALES_ORDER_ENTITY_ID"
+                    table="type_order_info" column="order_id" referenceTable="sales_order"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
+        <constraint xsi:type="foreign" referenceId="TYPE_ORDER_QUOTE_ID_QUOTE_ENTITY_ID"
+                    table="type_order_info" column="quote_id" referenceTable="quote"
+                    referenceColumn="entity_id" onDelete="CASCADE"/>
+        <constraint xsi:type="unique" referenceId="TYPE_ORDER_UNIQUE_PAIR">
+            <column name="name"/>
+            <column name="order_id"/>
+        </constraint>
+    </table>
+    <table name="type_order" resource="default" engine="innodb" comment="Type Order">
+        <column xsi:type="int" name="type_order_id" unsigned="true" nullable="false" comment="Type Order ID"
+                identity="true"/>
+        <column xsi:type="varchar" name="name" nullable="false" length="60" default="Standardowe" comment="Name"/>
+        <column xsi:type="timestamp" name="created_at" on_update="false" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Creation Time"/>
+        <column xsi:type="timestamp" name="updated_at" on_update="true" nullable="false" default="CURRENT_TIMESTAMP"
+                comment="Update Time"/>
+        <constraint xsi:type="primary" referenceId="PRIMARY">
+            <column name="type_order_id"/>
+        </constraint>
+    </table>
+</schema>
